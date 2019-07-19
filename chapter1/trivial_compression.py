@@ -1,38 +1,40 @@
 #!/usr/bin/env python3
+
+
 class CompressGene:
     def __init__(self, gene: str) -> None:
         self._compress(gene)
 
     def __repr__(self) -> str:
-        return self._decompress()
+        return repr(self._decompress())
 
     def _compress(self, gene: str) -> None:
         self.bit_string = 1
         for nucleotide in gene.upper():
-            self.bit_string <<= 2
-            if nucleotide == 'A':
+            self.bit_string <<= 1
+            if nucleotide == "A":
                 self.bit_string |= 0b00
-            elif nucleotide == 'C':
+            elif nucleotide == "C":
                 self.bit_string |= 0b01
-            elif nucleotide == 'G':
+            elif nucleotide == "G":
                 self.bit_string |= 0b10
-            elif nucleotide == 'T':
+            elif nucleotide == "T":
                 self.bit_string |= 0b11
             else:
-                raise ValueError(f'Invalid nucleotide: {nucleotide}')
+                raise ValueError(f"Invalid nucleotide: {nucleotide}")
 
     def _decompress(self) -> str:
-        gene : str = ""
-        for i in range(0, self.bit_string.bit_length()-1, 2):
+        gene: str = ""
+        for i in range(0, self.bit_string.bit_length() - 1, 2):
             bits = self.bit_string >> i & 0b11
             if bits == 0b00:
-                gene += 'A'
+                gene += "A"
             elif bits == 0b01:
-                gene += 'C'
+                gene += "C"
             elif bits == 0b10:
-                gene += 'G'
+                gene += "G"
             elif bits == 0b11:
-                gene += 'T'
+                gene += "T"
             else:
-                raise ValueError(f'Invalid nucleotide: {nucleotide}')
+                raise ValueError(f"Invalid bits: {bits}")
         return gene[::-1]
