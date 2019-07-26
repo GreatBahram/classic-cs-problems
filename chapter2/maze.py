@@ -4,7 +4,7 @@ from enum import Enum
 from math import sqrt
 from typing import Callable, List, NamedTuple, Optional
 
-# from generic_search import astart, bfs, dfs, node_to_path
+from generic_search import dfs, node_to_path
 
 
 class Cell(str, Enum):
@@ -81,3 +81,28 @@ class Maze:
             locations.append(MazeLocation(ml.row, ml.column - 1))
 
         return locations
+
+    def mark(self, path: list):
+        for maze_location in path:
+            self._grid[maze_location.row][maze_location.column] = Cell.PATH
+        self._grid[self.start.row][self.start.column] = Cell.START
+        self._grid[self.goal.row][self.goal.column] = Cell.GOAL
+
+    def clear(self, path):
+        for maze_location in path:
+            self._grid[maze_location.row][maze_location.column] = Cell.EMPTY
+        self._grid[self.start.row][self.start.column] = Cell.START
+        self._grid[self.goal.row][self.goal.column] = Cell.GOAL
+
+
+if __name__ == '__main__':
+    m = Maze()
+    print(m)
+    soluton1 = dfs(m.start, m.goal_test, m.successors)
+    if soluton1 is None:
+        print('No solution found using depth-first search!')
+    else:
+        path = node_to_path(soluton1)
+        m.mark(path)
+        print(m)
+        m.clear(path)
