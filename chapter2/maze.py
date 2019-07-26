@@ -35,6 +35,7 @@ class Maze:
         self.goal = goal
 
         self._fill_the_grid(rows, columns)
+        self._randomly_fill(rows, columns, sparseness)
 
     def _fill_the_grid(self, rows, columns):
 
@@ -49,6 +50,9 @@ class Maze:
             for col in range(columns):
                 if random.uniform(0, 1) < sparseness:
                     self._grid[row][col] = Cell.BLOCKED
+
+    def __repr__(self):
+        return f"Maze('Rows:{self._rows}', 'Columns: {self._columns}')"
 
     def __str__(self):
         output = ""
