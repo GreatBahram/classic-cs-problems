@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from typing import List, TypeVar, Generic
+from collections import deque
 
 T = TypeVar("T")
 
@@ -22,6 +23,24 @@ class Stack(Generic[T]):
         return repr(self._container)
 
 
+class Queue:
+    def __init__(self):
+        self._container = deque()
+
+    def push(self, item):
+        self._container.append(item)
+
+    def pop(self):
+        return self._container.popleft()
+
+    @property
+    def empty(self):
+        return not self._container
+
+    def __repr__(self):
+        return repr(self._container)
+
+
 class Node:
     def __init__(self, state, parent=None, cost=0.0, heuristic=0.0) -> None:
         self.state = state
@@ -35,6 +54,27 @@ class Node:
 
 def dfs(initial, goal_test, successors):
     frontier = Stack()
+    frontier.push(Node(initial))
+
+    explored = {initial}
+
+    while not frontier.empty:
+        current_node = frontier.pop()
+        current_state = current_node.state
+
+        if goal_test(current_state):
+            return current_node
+
+        for child in successors(current_state):
+            if child in explored:
+                continue
+            explored.add(child)
+            frontier.push(Node(child, parent=current_node))
+    return None
+
+
+def bfs(initial, goal_test, successors):
+    frontier = Queue()
     frontier.push(Node(initial))
 
     explored = {initial}

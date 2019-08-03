@@ -4,7 +4,7 @@ from enum import Enum
 from math import sqrt
 from typing import Callable, List, NamedTuple, Optional
 
-from generic_search import dfs, node_to_path
+from generic_search import bfs, dfs, node_to_path
 
 
 class Cell(str, Enum):
@@ -104,5 +104,17 @@ if __name__ == '__main__':
     else:
         path = node_to_path(soluton1)
         m.mark(path)
+        print('DFS')
+        print('-' * m._rows)
+        print(m)
+        m.clear(path)
+    soluton2 = bfs(m.start, m.goal_test, m.successors)
+    if soluton2 is None:
+        print('No solution found using breadth-first search!')
+    else:
+        path = node_to_path(soluton2)
+        m.mark(path)
+        print('BFS')
+        print('-' * m._rows)
         print(m)
         m.clear(path)
