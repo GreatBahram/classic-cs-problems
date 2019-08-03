@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from typing import List, TypeVar, Generic
 from collections import deque
+import heapq
 
 T = TypeVar("T")
 
@@ -32,6 +33,24 @@ class Queue:
 
     def pop(self):
         return self._container.popleft()
+
+    @property
+    def empty(self):
+        return not self._container
+
+    def __repr__(self):
+        return repr(self._container)
+
+
+class PriorityQueue:
+    def __init__(self):
+        self._container = []
+
+    def push(self, item):
+        heapq.heappush(self._container, item)
+
+    def pop(self):
+        return heapq.heappop(self._container)
 
     @property
     def empty(self):
