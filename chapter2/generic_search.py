@@ -33,7 +33,7 @@ class Node:
         return (self.cost + self.heuristic) < (other.cost + other.heuristic)
 
 
-def dfs(initial, goal_test, successorts):
+def dfs(initial, goal_test, successors):
     frontier = Stack()
     frontier.push(Node(initial))
 
@@ -46,7 +46,7 @@ def dfs(initial, goal_test, successorts):
         if goal_test(current_state):
             return current_node
 
-        for child in successorts(current_state):
+        for child in successors(current_state):
             if child in explored:
                 continue
             explored.add(child)
