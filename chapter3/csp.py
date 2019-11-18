@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Dict, List, TypeVar
 
 V = TypeVar("V")  # variable type
-D = TypeDar("D")  # domain type
+D = TypeVar("D")  # domain type
 
 
 class Constraint(ABC):
@@ -25,7 +25,7 @@ class CSP:
                 raise LookupError("")
             self.constraints[variable] = []
 
-    def add_constraint(self, constraint: Constraint[V, D]):
+    def add_constraint(self, constraint):
         for variable in constraint.variables:
             if variable not in self.variables:
                 raise LookupError("")
@@ -33,7 +33,7 @@ class CSP:
 
     def consistent(self, variable, assignment: Dict[V, D]):
         for constraint in self.constraints[variable]:
-            if not constraint.satisfied():
+            if not constraint.satisfied(assignment):
                 return False
         return True
 
