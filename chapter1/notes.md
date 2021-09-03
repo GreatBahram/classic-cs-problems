@@ -42,14 +42,7 @@ The idea behind this problem is to model a mathematic formula into some code.
 
 ## 1.5 The Towers of Hanoi
 
-## 1.6 Real-world applications
-
-## Interesting exercise
-
-- [x] Recursion Tree for Fibonacci
-- [ ] A solver for the tower of hanoi for any number of disks: an iterative solution for hanoi.
-
-
+More of recursive functions; importance of the base case.
 
 
 
