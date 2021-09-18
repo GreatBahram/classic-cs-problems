@@ -25,20 +25,20 @@ External links:
 
 ## 2.2 Maze solving
 
-- [ ] Problem representation
+- [x] Problem representation
 
 <img src="assets/maze.png" style="zoom:50%"/>
 
-- [ ] DFS (Stack, Node, dfs, node_to_path, mark, clean): As its name applies it goes as deeply as it can before backtracking. We need to take of **two data structures**, a stack of states that we are considering searching (frontier) and the set of states that we have already searched (explored).
+- [x] DFS (Stack, Node, dfs, node_to_path, mark, clean): As its name applies it goes as deeply as it can before backtracking. We need to take of **two data structures**, a stack of states that we are considering searching (frontier) and the set of states that we have already searched (explored).
 
 <img src="assets/dfs-01.png" style="zoom:50%"/>
 
-- [ ] BFS: You may notice that the solution paths for DFS seem **unnatural** and <u>they are not usually the shortest paths</u>. While <u>BFS promises to always find the shortest path</u>, by checking one layer each time. Is some cases DFS might be faster than BFS or vice versa. Normally DFS is used to find whether <u>there is a solution</u>; while BFS finds the shortest path if such one exists.
+- [x] BFS: You may notice that the solution paths for DFS seem **unnatural** and <u>they are not usually the shortest paths</u>. While <u>BFS promises to always find the shortest path</u>, by checking one layer each time. Is some cases DFS might be faster than BFS or vice versa. Normally DFS is used to find whether <u>there is a solution</u>; while BFS finds the shortest path if such one exists.
   * BFS requires a queue which it is implemented using `deque` in Python (you cannot use python `list` for the queue it is expensive when you remove from the beginning).
 
 <img src="assets/bfs-01.png" style="zoom:50%"/>
 
-- [ ] A*: Unlike BFS, A\* takes the cost of movement into consideration.
+- [x] A*: Unlike BFS, A\* takes the cost of movement into consideration.
 
 
 $f(n) = g(n) + h(n)$
@@ -53,7 +53,7 @@ if the estimation is **admissible**, then it can be proved that the final path f
 
 When choosing the next state to explore from the frontier, an A* search picks the one with the **lowest** $f(n)$. This is how it distinguishes itself from BFS and DFS.
 
-* A\* uses a `PriorityQueue` for its frontier to find the state with the lowest cost. It is implemented using `heappush` and `heappop` which results in $\lg(n)$ for each push and pop operation.
+* A\* uses a `PriorityQueue` for its frontier to find the state with the **lowest cost**. It is implemented using `heappush` and `heappop` which results in $\lg(n)$ for each push and pop operation.
 * Euclidean distance measure is implemented as a closure to capture the goal state.
 
 <img src="assets/distance-02.png" style="zoom:50%"/>
@@ -64,7 +64,7 @@ When choosing the next state to explore from the frontier, an A* search picks th
 
 * To convert a BFS into A\*, it needs to modification: firstly, changing the frontier from a simple queue to binary heap (priority queue) and secondly, change the explored set to dictionary to keep track of lowest cost of each node ($g(n)$).
 
-- [ ] Add a counter for DFS, BFS, and A\* to see how many states each searches
+- [x] Add a counter for DFS, BFS, and A\* to see how many states each searches
 
 ### Comparison between search algorithms
 
