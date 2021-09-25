@@ -78,4 +78,5 @@ When choosing the next state to explore from the frontier, an A* search picks th
 
 
 
-- [ ] Change the MCState representation to be usable for the DFS function (Hint: `__eq__` and`__hash__`)
+- [x] Change the MCState representation to be usable for the DFS function (Hint: `__eq__` and`__hash__`)
+
