@@ -15,6 +15,8 @@ class MapColoringConstraint(Constraint[str, str]):
 
 
 if __name__ == "__main__":
+    import pprint
+
     variables: list[str] = [
         "Western Australia",
         "Northern Territory",
@@ -42,4 +44,4 @@ if __name__ == "__main__":
     if result is None:
         print("No solution found")
     else:
-        print(result)
+        pprint.pprint(result)
