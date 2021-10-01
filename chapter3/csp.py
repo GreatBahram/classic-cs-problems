@@ -1,54 +1,54 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, TypeVar
+from collections import defaultdict
+from typing import Generic, Optional, TypeVar
 
-V = TypeVar("V")  # variable type
+V = TypeVar("V")  # value type
 D = TypeVar("D")  # domain type
 
 
-class Constraint(ABC):
-    def __init__(self, variables):
-        self.variables = variables
+class Constraint(Generic[V, D], ABC):
+    def __init__(self, variables: list[V]) -> None:
+        self.variables: list[V] = variables
 
-    # each assignment consists of values with selective domains
     @abstractmethod
-    def satisfied(self, assignment: Dict[V, D]) -> bool:
-        pass
+    def satisfied(self, assignment: dict[V, D]) -> bool:
+        raise NotImplementedError("Subclass should implement this")
 
 
-class CSP:
-    def __init__(self, variables: List[V], domains: Dict[V, List[D]]):
-        self.variables = variables
-        self.domains = domains
-        self.constraints: Dict[V, List[Constraint]] = {}
-        for variable in variables:
+class CSP(Generic[V, D]):
+    def __init__(self, variables: list[V], domains: dict[V, list[D]]):
+        self.variables: list[V] = variables
+        self.domains: dict[V, list[D]] = domains
+        self.constraints: dict[V, list[Constraint[V, D]]] = defaultdict(list)
+        for variable in self.variables:
             if variable not in domains:
-                raise LookupError("")
-            self.constraints[variable] = []
+                raise LookupError("Every variable should have a domain")
 
-    def add_constraint(self, constraint):
-        for variable in constraint.variables:
-            if variable not in self.variables:
-                raise LookupError("")
-            self.constraints[variable].append(constraint)
-
-    def consistent(self, variable, assignment: Dict[V, D]):
+    def consitent(self, variable: V, assignment: dict[V, D]) -> bool:
         for constraint in self.constraints[variable]:
             if not constraint.satisfied(assignment):
                 return False
         return True
 
-    def backtracking_search(self, assignment: Dict[V, D] = {}):
-        # base case
+    def add_constraint(self, constraint: Constraint[V, D]) -> None:
+        for variable in constraint.variables:
+            if variable not in self.variables:
+                raise LookupError("Variable not constraint not in CSP")
+            else:
+                self.constraints[variable].append(constraint)
+
+    def backtracking(self, assignment: dict[V, D] = {}) -> Optional[dict[V, D]]:
         if len(assignment) == len(self.variables):
             return assignment
-        unassigned = [v for v in self.variables if v not in assignment]
 
-        first = unassigned[0]
+        unassigned: list[V] = [v for v in self.variables if v not in assignment]
+        # we pick the first unassigned variables
+        first: V = unassigned[0]
         for value in self.domains[first]:
-            local_assignment = assignment.copy()  # deep copy
+            local_assignment = assignment.copy()
             local_assignment[first] = value
-            if self.consistent(first, local_assignment):
-                result = self.backtracking_search(local_assignment)
+            if self.consitent(first, local_assignment):
+                result: Optional[dict[V, D]] = self.backtracking(local_assignment)
                 if result is not None:
                     return result
         return None
