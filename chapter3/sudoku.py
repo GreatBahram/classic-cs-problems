@@ -1,8 +1,32 @@
 from itertools import chain
 from typing import NamedTuple, Optional
 
+try:
+    from click import style
+except ModuleNotFoundError:
+
+    def style(text, fg):
+        return text
+
+
 from csp import CSP, Constraint
 
+all_colors = (
+    "red",
+    "green",
+    "yellow",
+    "blue",
+    "magenta",
+    "cyan",
+    "white",
+    "bright_red",
+    "bright_green",
+    "bright_yellow",
+    "bright_blue",
+    "bright_magenta",
+    "bright_cyan",
+    "bright_white",
+)
 Grid = list[list[int]]
 
 
@@ -19,7 +43,7 @@ def generate_sudoku() -> Grid:
 def display_grid(grid: Grid) -> None:
     print("-" * 19)
     for row in grid:
-        print("|" + "|".join(map(str, row)), end="|\n")
+        print("|" + "|".join(row), end="|\n")
     print("-" * 19)
 
 
@@ -71,6 +95,8 @@ class SudokuConstraint(Constraint):
 
 
 if __name__ == "__main__":
+    import random
+
     grid: Grid = generate_sudoku()
     variables: list[GridLocation] = [
         GridLocation(row, col) for row in range(len(grid)) for col in range(len(grid))
@@ -87,6 +113,19 @@ if __name__ == "__main__":
     if result is None:
         print("No solution found")
     else:
+        # assign different color for each subgrid
+        subgrid_color = {}
+        for i in range(9):
+            for j in range(9):
+                subgrid_color[(i - i % 3, j - j % 3)] = ""
+        for subgrid in subgrid_color:
+            subgrid_color[subgrid] = random.choice(all_colors)
+
+        def gl_to_color(row, column):
+            return subgrid_color[(row - row % 3, column - column % 3)]
+
         for gl, number in result.items():
-            grid[gl.row][gl.column] = number
+            grid[gl.row][gl.column] = style(
+                str(number), fg=gl_to_color(gl.row, gl.column)
+            )
         display_grid(grid)
