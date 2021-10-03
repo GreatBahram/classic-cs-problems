@@ -1,7 +1,6 @@
 """In order to see the table pretty printed (colorful), please install click module."""
 from enum import Enum
 from itertools import product
-from random import choice
 from typing import NamedTuple, Optional
 
 try:
@@ -30,7 +29,6 @@ all_colors = [
     "cyan",
     "white",
 ]
-Grid = list[list[str]]
 
 
 class Cell(str, Enum):
@@ -39,6 +37,9 @@ class Cell(str, Enum):
 
     def __str__(self):
         return self.value
+
+
+Grid = list[list[Cell]]
 
 
 class GridLocation(NamedTuple):
